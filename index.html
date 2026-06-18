@@ -1717,7 +1717,7 @@ async function seedData() {
   }
   const programs = [
     {id:uid(),name:'English for Kids',duration:'10x pertemuan / 2 minggu',price:'150000',tutor:'Ms. Dinda',capacity:'10',category:'Kids',status:'Active',desc:'Program fun dan interaktif untuk membangun fondasi Bahasa Inggris anak melalui games, songs, dan storytelling.'},
-    {id:uid(),name:'English for Teens',duration:'8x pertemuan / bulan',price:'400000',tutor:'Mr. Budi',capacity:'10',category:'Teens',status:'Active',desc:'Program remaja untuk meningkatkan speaking, grammar, dan kepercayaan diri untuk sekolah maupun pergaulan global.'},
+    {id:uid(),name:'English for Teens',duration:'10x pertemuan / 2 minggu',price:'400000',tutor:'Mr. Budi',capacity:'10',category:'Teens',status:'Active',desc:'Program remaja untuk meningkatkan speaking, grammar, dan kepercayaan diri untuk sekolah maupun pergaulan global.'},
     {id:uid(),name:'IELTS Preparation',duration:'10x pertemuan / bulan',price:'650000',tutor:'Ms. Rina',capacity:'10',category:'Test Prep',status:'Active',desc:'Program intensif untuk target studi, beasiswa, dan karier internasional dengan fokus pada 4 skill IELTS.'},
     {id:uid(),name:'TOEFL Preparation',duration:'10x pertemuan / bulan',price:'600000',tutor:'Mr. Kevin',capacity:'10',category:'Test Prep',status:'Active',desc:'Kelas terstruktur untuk membantu peserta mempersiapkan TOEFL secara efektif, baik untuk kampus maupun kebutuhan profesional.'},
     {id:uid(),name:'English PTE',duration:'8x pertemuan / bulan',price:'700000',tutor:'Ms. Citra',capacity:'10',category:'Test Prep',status:'Active',desc:'Program persiapan PTE melalui strategi, latihan intensif, dan simulasi terarah.'},
@@ -1757,7 +1757,7 @@ async function seedFirestore() {
     if (progSnap.empty) {
       const seedPrograms = [
         { name: 'English for Kids', duration:'10x pertemuan / 2 minggu', price:'150000', tutor:'Ms. Dinda', capacity:'10', category:'Kids', status:'Active', desc:'Program fun dan interaktif untuk membangun fondasi Bahasa Inggris anak melalui games, songs, dan storytelling.' },
-        { name: 'English for Teens', duration:'8x pertemuan / bulan', price:'400000', tutor:'Mr. Budi', capacity:'10', category:'Teens', status:'Active', desc:'Program remaja untuk meningkatkan speaking, grammar, dan kepercayaan diri untuk sekolah maupun pergaulan global.' },
+        { name: 'English for Teens', duration:'10x pertemuan / 2 minggu', price:'400000', tutor:'Mr. Budi', capacity:'10', category:'Teens', status:'Active', desc:'Program remaja untuk meningkatkan speaking, grammar, dan kepercayaan diri untuk sekolah maupun pergaulan global.' },
         { name: 'IELTS Preparation', duration:'10x pertemuan / bulan', price:'650000', tutor:'Ms. Rina', capacity:'10', category:'Test Prep', status:'Active', desc:'Program intensif untuk target studi, beasiswa, dan karier internasional dengan fokus pada 4 skill IELTS.' },
         { name: 'TOEFL Preparation', duration:'10x pertemuan / bulan', price:'600000', tutor:'Mr. Kevin', capacity:'10', category:'Test Prep', status:'Active', desc:'Kelas terstruktur untuk membantu peserta mempersiapkan TOEFL secara efektif, baik untuk kampus maupun kebutuhan profesional.' },
         { name: 'English PTE', duration:'8x pertemuan / bulan', price:'700000', tutor:'Ms. Citra', capacity:'10', category:'Test Prep', status:'Active', desc:'Program persiapan PTE melalui strategi, latihan intensif, dan simulasi terarah.' },
