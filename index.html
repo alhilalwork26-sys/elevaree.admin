@@ -197,6 +197,40 @@ body.demo-mode .sidebar{top:36px}
 @keyframes fadeInPage{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 #appShell{display:flex;min-height:100vh}
 
+/* ─ WEBSITE CONTENT ─ */
+.website-panel{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-bottom:20px}
+.website-hero{background:linear-gradient(135deg,var(--gray-900),#3a2330 58%,var(--pink-600));border-radius:var(--radius-lg);padding:30px;color:white;position:relative;overflow:hidden;min-height:210px}
+.website-hero::after{content:'';position:absolute;width:260px;height:260px;right:-90px;top:-70px;border-radius:50%;background:rgba(255,255,255,.1)}
+.website-hero h3{font-size:1.9rem;margin-bottom:8px;position:relative;z-index:1}
+.website-hero p{font-size:.9rem;line-height:1.7;max-width:560px;color:rgba(255,255,255,.78);position:relative;z-index:1}
+.website-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;position:relative;z-index:1}
+.website-hero-actions .btn-secondary{background:rgba(255,255,255,.14);color:white;border-color:rgba(255,255,255,.22)}
+.website-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.website-stat{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-md);padding:18px;min-height:98px;display:flex;flex-direction:column;justify-content:space-between}
+.website-stat label{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);font-weight:700}
+.website-stat strong{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gray-800);line-height:1}
+.website-stat span{font-size:.78rem;color:var(--gray-400)}
+.website-section{background:white;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px}
+.website-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.website-section-head h4{font-size:1.05rem;color:var(--gray-800);margin-bottom:4px}
+.website-section-head p{font-size:.82rem;color:var(--gray-400);line-height:1.5}
+.website-program-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.website-program-card{border:1px solid var(--gray-100);border-radius:var(--radius-md);padding:18px;background:linear-gradient(180deg,#fff,#fff8fb);transition:var(--transition)}
+.website-program-card:hover{border-color:var(--pink-200);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.website-card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}
+.website-program-card h5{font-size:1rem;color:var(--gray-800);margin-bottom:4px}
+.website-program-card small{display:block;color:var(--gray-400);font-size:.76rem}
+.website-price{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--pink-600);line-height:1}
+.website-desc{font-size:.82rem;color:var(--gray-500);line-height:1.55;min-height:64px;margin-bottom:14px}
+.website-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.website-meta span{font-size:.72rem;color:var(--gray-500);background:var(--gray-50);border-radius:999px;padding:5px 9px}
+.website-card-actions{display:flex;gap:8px}
+.website-card-actions button{flex:1;justify-content:center}
+.website-schedule-table td{vertical-align:middle}
+.website-muted{color:var(--gray-400);font-size:.82rem}
+@media(max-width:980px){.website-panel{grid-template-columns:1fr}.website-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.website-stat-grid{grid-template-columns:1fr}.website-section-head{flex-direction:column}.website-card-actions{flex-direction:column}}
+
 /* ─ DASHBOARD ─ */
 .welcome-banner{background:linear-gradient(135deg,var(--pink-500) 0%,#c41f55 100%);border-radius:var(--radius-lg);padding:36px 40px;color:white;margin-bottom:28px;position:relative;overflow:hidden}
 .welcome-banner::before{content:'';position:absolute;width:300px;height:300px;background:rgba(255,255,255,.08);border-radius:50%;right:-60px;top:-80px}
@@ -3215,6 +3249,248 @@ document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('cli
     try { await renderSchedules(); } catch (e) { console.error('Post-save renderSchedules error:', e); }
     try { await updateDashboard(); } catch (e) { console.error('Post-save updateDashboard error:', e); }
   };
+})();
+</script>
+
+<script>
+/* === Website Content Manager === */
+(function(){
+  const websitePageHtml = `
+    <div class="page" id="page-website">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h3>Website Content</h3>
+          <p>Atur program, harga, kapasitas, deskripsi, dan jadwal yang tampil di website utama.</p>
+        </div>
+        <div class="page-header-right">
+          <a class="btn-export" href="https://elevaree-academy.vercel.app/index.html#programs" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" stroke-width="1.8"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Preview Website
+          </a>
+          <button class="btn-primary" onclick="refreshWebsiteContent()">
+            <svg viewBox="0 0 24 24" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0020.49 15"/></svg>Refresh
+          </button>
+        </div>
+      </div>
+
+      <div class="website-panel">
+        <div class="website-hero">
+          <h3>Kontrol Website Elevaree</h3>
+          <p>Perubahan pada program dan jadwal di halaman ini tersimpan ke database admin. Website utama akan membaca data yang sama untuk section Program & Harga serta Jadwal Kelas.</p>
+          <div class="website-hero-actions">
+            <button class="btn-secondary" onclick="navigate('programs',document.querySelector('[data-page=programs]'))">Kelola Semua Program</button>
+            <button class="btn-secondary" onclick="navigate('schedule',document.querySelector('[data-page=schedule]'))">Kelola Semua Jadwal</button>
+          </div>
+        </div>
+        <div class="website-stat-grid">
+          <div class="website-stat"><label>Program Aktif</label><strong id="webProgramCount">—</strong><span>ditampilkan di website</span></div>
+          <div class="website-stat"><label>Jadwal Open</label><strong id="webScheduleCount">—</strong><span>slot tersedia</span></div>
+          <div class="website-stat"><label>Harga Mulai</label><strong id="webMinPrice">—</strong><span>berdasarkan program aktif</span></div>
+          <div class="website-stat"><label>Kapasitas Grup</label><strong id="webMaxCapacity">—</strong><span>maks siswa per kelas</span></div>
+        </div>
+      </div>
+
+      <div class="website-section">
+        <div class="website-section-head">
+          <div>
+            <h4>Program & Harga Website</h4>
+            <p>Edit kartu program yang muncul di section Program & Harga pada landing page.</p>
+          </div>
+          <button class="btn-primary" onclick="openAddProgramModal()">
+            <svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Tambah Program
+          </button>
+        </div>
+        <div class="website-program-grid" id="websiteProgramGrid">
+          <div class="loading-row"><span class="spinner"></span>Memuat program...</div>
+        </div>
+      </div>
+
+      <div class="website-section">
+        <div class="website-section-head">
+          <div>
+            <h4>Jadwal yang Tampil di Website</h4>
+            <p>Atur hari, jam, tutor, mode, kuota, dan status jadwal kelas.</p>
+          </div>
+          <button class="btn-primary" onclick="openAddScheduleModal()">
+            <svg viewBox="0 0 24 24" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Tambah Jadwal
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="website-schedule-table">
+            <thead><tr><th>Program</th><th>Hari</th><th>Jam</th><th>Tutor</th><th>Mode</th><th>Kuota</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="websiteScheduleTbody"><tr class="loading-row"><td colspan="8"><span class="spinner"></span>Memuat jadwal...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  function normalizeStatus(status) {
+    return String(status || 'Active').toLowerCase();
+  }
+
+  function visibleProgram(program) {
+    return !['inactive', 'draft', 'hidden'].includes(normalizeStatus(program.status));
+  }
+
+  function openProgram(programId) {
+    navigate('programs', document.querySelector('[data-page=programs]'));
+    setTimeout(() => {
+      if (typeof window.editProgram === 'function') window.editProgram(programId);
+      else if (typeof editProgram === 'function') editProgram(programId);
+    }, 650);
+  }
+
+  function openSchedule(scheduleId) {
+    navigate('schedule', document.querySelector('[data-page=schedule]'));
+    setTimeout(() => {
+      if (typeof window.editSchedule === 'function') window.editSchedule(scheduleId);
+    }, 650);
+  }
+
+  function formatWebsitePrice(value) {
+    const raw = Number(String(value || '').replace(/[^\d]/g, ''));
+    if (!raw) return '—';
+    return fmtPrice(raw);
+  }
+
+  function getScheduleProgram(schedule) {
+    return schedule.programName || schedule.program || '—';
+  }
+
+  function renderWebsitePrograms(programs) {
+    const grid = document.getElementById('websiteProgramGrid');
+    if (!grid) return;
+    const data = programs.filter(visibleProgram);
+    if (!data.length) {
+      grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><h4>Belum ada program aktif</h4><p>Tambahkan program untuk mulai mengisi website.</p></div>';
+      return;
+    }
+    grid.innerHTML = data.map(program => `
+      <div class="website-program-card">
+        <div class="website-card-top">
+          <div>
+            <h5>${esc(program.name || 'Program')}</h5>
+            <small>${esc(program.category || 'Program Kursus')}</small>
+          </div>
+          <div class="website-price">${formatWebsitePrice(program.price)}</div>
+        </div>
+        <div class="website-desc">${esc(program.desc || 'Belum ada deskripsi program.')}</div>
+        <div class="website-meta">
+          <span>${esc(program.duration || 'Durasi belum diisi')}</span>
+          <span>${program.capacity ? `Maks ${esc(program.capacity)} peserta` : 'Kapasitas belum diisi'}</span>
+          <span>${esc(program.status || 'Active')}</span>
+        </div>
+        <div class="website-card-actions">
+          <button class="btn-secondary" onclick="window.openWebsiteProgram('${program.id}')">Edit Data</button>
+          <button class="btn-primary" onclick="window.openWebsiteProgram('${program.id}')">Edit Website</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderWebsiteSchedules(schedules) {
+    const tbody = document.getElementById('websiteScheduleTbody');
+    if (!tbody) return;
+    const data = schedules.filter(schedule => !['closed', 'inactive'].includes(normalizeStatus(schedule.status)));
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="website-muted">Belum ada jadwal open untuk website.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(schedule => {
+      const quota = schedule.capacity || schedule.quota || '—';
+      const status = schedule.status || 'Open';
+      return `
+        <tr>
+          <td><strong>${esc(getScheduleProgram(schedule))}</strong></td>
+          <td>${esc(schedule.day || '—')}</td>
+          <td>${esc(schedule.time || [schedule.startTime, schedule.endTime].filter(Boolean).join(' - ') || '—')}</td>
+          <td>${esc(schedule.tutorName || schedule.tutor || 'Open slot')}</td>
+          <td>${esc(schedule.room || 'Online')}</td>
+          <td>${esc(quota)}</td>
+          <td>${badgeHTML(status)}</td>
+          <td><div class="action-btns">
+            <button class="action-btn edit" onclick="window.openWebsiteSchedule('${schedule.id}')" title="Edit Jadwal"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          </div></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function updateWebsiteStats(programs, schedules) {
+    const activePrograms = programs.filter(visibleProgram);
+    const openSchedules = schedules.filter(schedule => !['closed', 'inactive'].includes(normalizeStatus(schedule.status)));
+    const prices = activePrograms.map(p => Number(String(p.price || '').replace(/[^\d]/g, ''))).filter(Boolean);
+    const capacities = activePrograms
+      .filter(p => !String(p.name || '').toLowerCase().includes('privat'))
+      .map(p => Number(p.capacity))
+      .filter(Boolean);
+
+    set('webProgramCount', activePrograms.length);
+    set('webScheduleCount', openSchedules.length);
+    set('webMinPrice', prices.length ? formatWebsitePrice(Math.min(...prices)) : '—');
+    set('webMaxCapacity', capacities.length ? Math.max(...capacities) : '—');
+  }
+
+  window.refreshWebsiteContent = async function(){
+    const programGrid = document.getElementById('websiteProgramGrid');
+    const scheduleBody = document.getElementById('websiteScheduleTbody');
+    if (programGrid) programGrid.innerHTML = '<div class="loading-row"><span class="spinner"></span>Memuat program...</div>';
+    if (scheduleBody) scheduleBody.innerHTML = '<tr class="loading-row"><td colspan="8"><span class="spinner"></span>Memuat jadwal...</td></tr>';
+
+    try {
+      const [programs, schedules] = await Promise.all([
+        DB.getAll('programs').catch(() => []),
+        DB.getAll('schedules').catch(() => [])
+      ]);
+      renderWebsitePrograms(programs);
+      renderWebsiteSchedules(schedules);
+      updateWebsiteStats(programs, schedules);
+    } catch (error) {
+      console.error('Website content load failed:', error);
+      showToast('Gagal memuat konten website', 'error');
+    }
+  };
+
+  window.openWebsiteProgram = openProgram;
+  window.openWebsiteSchedule = openSchedule;
+
+  function injectWebsiteContentPage() {
+    if (!document.getElementById('page-website')) {
+      const settingsPage = document.getElementById('page-settings');
+      if (settingsPage) settingsPage.insertAdjacentHTML('beforebegin', websitePageHtml);
+    }
+
+    if (!document.querySelector('[data-page="website"]')) {
+      const programsNav = document.querySelector('[data-page="programs"]');
+      if (programsNav && programsNav.parentElement) {
+        const nav = document.createElement('div');
+        nav.className = 'nav-item';
+        nav.dataset.page = 'website';
+        nav.innerHTML = '<svg viewBox="0 0 24 24" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"></path></svg>Website';
+        nav.onclick = function(){ navigate('website', nav); };
+        programsNav.parentElement.insertBefore(nav, programsNav.nextSibling);
+      }
+    }
+  }
+
+  const baseNavigate = window.navigate;
+  window.navigate = function(pageId, navEl) {
+    if (pageId === 'website') {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      document.getElementById('page-website')?.classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+      (navEl || document.querySelector('[data-page=website]'))?.classList.add('active');
+      set('pageTitle', 'Website');
+      set('pageSubtitle', 'Konten yang tampil di landing page');
+      closeSidebar?.();
+      refreshWebsiteContent();
+      return;
+    }
+    baseNavigate?.(pageId, navEl);
+  };
+
+  document.addEventListener('DOMContentLoaded', injectWebsiteContentPage);
+  window.addEventListener('load', injectWebsiteContentPage);
 })();
 </script>
 
