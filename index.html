@@ -870,7 +870,7 @@ tbody td{padding:13px 16px;font-size:.85rem;color:var(--gray-600);vertical-align
       </div>
       <div class="modal-row">
         <div class="modal-group"><label class="modal-label">Tutor Pengampu</label><input class="modal-input" type="text" id="pTutor" placeholder="Nama tutor"></div>
-        <div class="modal-group"><label class="modal-label">Kapasitas (orang)</label><input class="modal-input" type="number" id="pCapacity" placeholder="30"></div>
+        <div class="modal-group"><label class="modal-label">Kapasitas kelas</label><input class="modal-input" type="number" id="pCapacity" placeholder="10"></div>
       </div>
       <div class="modal-row">
         <div class="modal-group"><label class="modal-label">Status *</label><select class="modal-input" id="pStatus"><option>Active</option><option>Draft</option><option>Full</option></select></div>
@@ -1682,11 +1682,12 @@ async function seedData() {
     LS.set('users',[{id:uid(),name:'Administrator',email:'admin@elevare.ac.id',password:'elevare2025',role:'admin'}]);
   }
   const programs = [
-    {id:uid(),name:'English for Kids',duration:'3 Bulan',price:'3500000',tutor:'Dr. Irma Sanjaya',capacity:'30',category:'Design',status:'Active',desc:'Belajar bahasa Inggris dasar untuk anak-anak dengan metode menyenangkan dan interaktif.'},
-    {id:uid(),name:'English for Teens',duration:'4 Bulan',price:'4500000',tutor:'Jeffry Hartanto, M.Kom',capacity:'25',category:'Technology',status:'Active',desc:'Program bahasa Inggris menengah untuk remaja yang fokus pada percakapan dan penulisan.'},
-    {id:uid(),name:'English for Academy',duration:'2 Bulan',price:'2500000',tutor:'Kartika Dewi Susanti',capacity:'40',category:'Marketing',status:'Active',desc:'Persiapan bahasa Inggris untuk keperluan akademik dan riset.'},
-    {id:uid(),name:'IELTS Class',duration:'3 Bulan',price:'4000000',tutor:'Lukman Hakim, M.Si',capacity:'20',category:'Technology',status:'Active',desc:'Kelas persiapan IELTS untuk meningkatkan skor listening, reading, writing, dan speaking.'},
-    {id:uid(),name:'TOEFL Class',duration:'6 Minggu',price:'1800000',tutor:'Maya Christianti',capacity:'20',category:'Language',status:'Active',desc:'Program intensif persiapan TOEFL dengan latihan soal dan simulasi.'},  ];
+    {id:uid(),name:'English for Kids',duration:'10x pertemuan / 2 minggu',price:'150000',tutor:'Ms. Dinda',capacity:'10',category:'Kids',status:'Active',desc:'Program fun dan interaktif untuk membangun fondasi Bahasa Inggris anak melalui games, songs, dan storytelling.'},
+    {id:uid(),name:'English for Teens',duration:'8x pertemuan / bulan',price:'400000',tutor:'Mr. Budi',capacity:'10',category:'Teens',status:'Active',desc:'Program remaja untuk meningkatkan speaking, grammar, dan kepercayaan diri untuk sekolah maupun pergaulan global.'},
+    {id:uid(),name:'IELTS Preparation',duration:'10x pertemuan / bulan',price:'650000',tutor:'Ms. Rina',capacity:'10',category:'Test Prep',status:'Active',desc:'Program intensif untuk target studi, beasiswa, dan karier internasional dengan fokus pada 4 skill IELTS.'},
+    {id:uid(),name:'TOEFL Preparation',duration:'10x pertemuan / bulan',price:'600000',tutor:'Mr. Kevin',capacity:'10',category:'Test Prep',status:'Active',desc:'Kelas terstruktur untuk membantu peserta mempersiapkan TOEFL secara efektif, baik untuk kampus maupun kebutuhan profesional.'},
+    {id:uid(),name:'English PTE',duration:'8x pertemuan / bulan',price:'700000',tutor:'Ms. Citra',capacity:'10',category:'Test Prep',status:'Active',desc:'Program persiapan PTE melalui strategi, latihan intensif, dan simulasi terarah.'},
+    {id:uid(),name:'English Privat',duration:'8x pertemuan / bulan',price:'900000',tutor:'Tutor pilihan',capacity:'1',category:'Private',status:'Active',desc:'Program eksklusif 1-on-1 dengan tutor untuk kebutuhan belajar yang lebih fokus, fleksibel, dan sesuai target personalmu.'},  ];
   if(!LS.get('programs')) LS.set('programs',programs);
 
   if(!LS.get('students')) {
@@ -1721,11 +1722,12 @@ async function seedFirestore() {
     const progSnap = await fbDb.collection('programs').limit(1).get();
     if (progSnap.empty) {
       const seedPrograms = [
-        { name: 'English for Kids', duration:'3 Bulan', price:'3500000', tutor:'Dr. Irma Sanjaya', capacity:'30', category:'Design', status:'Active', desc:'Belajar bahasa Inggris dasar untuk anak-anak dengan metode menyenangkan dan interaktif.' },
-        { name: 'English for Teens', duration:'4 Bulan', price:'4500000', tutor:'Jeffry Hartanto, M.Kom', capacity:'25', category:'Technology', status:'Active', desc:'Program bahasa Inggris menengah untuk remaja yang fokus pada percakapan dan penulisan.' },
-        { name: 'English for Academy', duration:'2 Bulan', price:'2500000', tutor:'Kartika Dewi Susanti', capacity:'40', category:'Marketing', status:'Active', desc:'Persiapan bahasa Inggris untuk keperluan akademik dan riset.' },
-        { name: 'IELTS Class', duration:'3 Bulan', price:'4000000', tutor:'Lukman Hakim, M.Si', capacity:'20', category:'Technology', status:'Active', desc:'Kelas persiapan IELTS untuk meningkatkan skor listening, reading, writing, dan speaking.' },
-        { name: 'TOEFL Class', duration:'6 Minggu', price:'1800000', tutor:'Maya Christianti', capacity:'20', category:'Language', status:'Active', desc:'Program intensif persiapan TOEFL dengan latihan soal dan simulasi.' },
+        { name: 'English for Kids', duration:'10x pertemuan / 2 minggu', price:'150000', tutor:'Ms. Dinda', capacity:'10', category:'Kids', status:'Active', desc:'Program fun dan interaktif untuk membangun fondasi Bahasa Inggris anak melalui games, songs, dan storytelling.' },
+        { name: 'English for Teens', duration:'8x pertemuan / bulan', price:'400000', tutor:'Mr. Budi', capacity:'10', category:'Teens', status:'Active', desc:'Program remaja untuk meningkatkan speaking, grammar, dan kepercayaan diri untuk sekolah maupun pergaulan global.' },
+        { name: 'IELTS Preparation', duration:'10x pertemuan / bulan', price:'650000', tutor:'Ms. Rina', capacity:'10', category:'Test Prep', status:'Active', desc:'Program intensif untuk target studi, beasiswa, dan karier internasional dengan fokus pada 4 skill IELTS.' },
+        { name: 'TOEFL Preparation', duration:'10x pertemuan / bulan', price:'600000', tutor:'Mr. Kevin', capacity:'10', category:'Test Prep', status:'Active', desc:'Kelas terstruktur untuk membantu peserta mempersiapkan TOEFL secara efektif, baik untuk kampus maupun kebutuhan profesional.' },
+        { name: 'English PTE', duration:'8x pertemuan / bulan', price:'700000', tutor:'Ms. Citra', capacity:'10', category:'Test Prep', status:'Active', desc:'Program persiapan PTE melalui strategi, latihan intensif, dan simulasi terarah.' },
+        { name: 'English Privat', duration:'8x pertemuan / bulan', price:'900000', tutor:'Tutor pilihan', capacity:'1', category:'Private', status:'Active', desc:'Program eksklusif 1-on-1 dengan tutor untuk kebutuhan belajar yang lebih fokus, fleksibel, dan sesuai target personalmu.' },
       ];
       for (const p of seedPrograms) {
         await fbDb.collection('programs').add({ ...p, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
@@ -2014,12 +2016,12 @@ document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('cli
     if(DB.mode==='firebase'){
       try{
         const s1=await fbDb.collection('schedules').limit(1).get();
-        if(s1.empty){ for(const x of [{program:'English for Kids',day:'Monday',time:'15:30 - 17:00',tutor:'Dr. Irma Sanjaya',room:'Room A / Offline',status:'Open',quota:'30',note:'Kelas reguler sore'},{program:'English for Teens',day:'Wednesday',time:'18:30 - 20:00',tutor:'Jeffry Hartanto, M.Kom',room:'Zoom Class',status:'Open',quota:'25',note:'Kelas online weekday'},{program:'IELTS Class',day:'Saturday',time:'09:00 - 11:00',tutor:'Lukman Hakim, M.Si',room:'Room B / Hybrid',status:'Full',quota:'20',note:'Simulasi speaking tiap akhir sesi'}]) await fbDb.collection('schedules').add({...x, createdAt: firebase.firestore.FieldValue.serverTimestamp()}); }
+        if(s1.empty){ for(const x of [{program:'English for Kids',day:'Monday',time:'15:30 - 17:00',tutor:'Ms. Dinda',room:'Zoom Class',status:'Open',quota:'10',note:'Kelas kids sore'},{program:'English for Teens',day:'Wednesday',time:'18:30 - 20:00',tutor:'Mr. Budi',room:'Zoom Class',status:'Open',quota:'10',note:'Kelas teens weekday'},{program:'IELTS Preparation',day:'Saturday',time:'09:00 - 11:00',tutor:'Ms. Rina',room:'Zoom Class',status:'Open',quota:'10',note:'Simulasi speaking tiap akhir sesi'}]) await fbDb.collection('schedules').add({...x, createdAt: firebase.firestore.FieldValue.serverTimestamp()}); }
         const s2=await fbDb.collection('enrollments').limit(1).get();
         if(s2.empty){ for(const x of [{student:'Aisyah Putri Rahayu',program:'English for Kids',scheduleId:'seed-schedule-1',scheduleLabel:'Monday • 15:30 - 17:00 • Dr. Irma Sanjaya • Room A / Offline',startDate:'2026-04-14',status:'Confirmed',payment:'Paid',source:'Website Form',note:'Parent request kelas sore'},{student:'Cindy Oktaviani',program:'English for Academy',startDate:'2026-04-18',status:'New',payment:'Partial',source:'WhatsApp Admin',note:'Menunggu kelengkapan dokumen'},{student:'Hendra Kurniawan',program:'English for Teens',scheduleId:'seed-schedule-2',scheduleLabel:'Wednesday • 18:30 - 20:00 • Jeffry Hartanto, M.Kom • Zoom Class',startDate:'2026-04-16',status:'Waiting List',payment:'Unpaid',source:'Instagram DM',note:'Masuk waiting list batch berikutnya'}]) await fbDb.collection('enrollments').add({...x, createdAt: firebase.firestore.FieldValue.serverTimestamp()}); }
       }catch(e){ console.warn('extra firebase seed failed',e); }
     } else {
-      if(!LS.get('schedules')) LS.set('schedules', [{id:'seed-schedule-1',program:'English for Kids',day:'Monday',time:'15:30 - 17:00',tutor:'Dr. Irma Sanjaya',room:'Room A / Offline',status:'Open',quota:'30',note:'Kelas reguler sore'},{id:'seed-schedule-2',program:'English for Teens',day:'Wednesday',time:'18:30 - 20:00',tutor:'Jeffry Hartanto, M.Kom',room:'Zoom Class',status:'Open',quota:'25',note:'Kelas online weekday'},{id:'seed-schedule-3',program:'IELTS Class',day:'Saturday',time:'09:00 - 11:00',tutor:'Lukman Hakim, M.Si',room:'Room B / Hybrid',status:'Full',quota:'20',note:'Simulasi speaking tiap akhir sesi'}]);
+      if(!LS.get('schedules')) LS.set('schedules', [{id:'seed-schedule-1',program:'English for Kids',day:'Monday',time:'15:30 - 17:00',tutor:'Ms. Dinda',room:'Zoom Class',status:'Open',quota:'10',note:'Kelas kids sore'},{id:'seed-schedule-2',program:'English for Teens',day:'Wednesday',time:'18:30 - 20:00',tutor:'Mr. Budi',room:'Zoom Class',status:'Open',quota:'10',note:'Kelas teens weekday'},{id:'seed-schedule-3',program:'IELTS Preparation',day:'Saturday',time:'09:00 - 11:00',tutor:'Ms. Rina',room:'Zoom Class',status:'Open',quota:'10',note:'Simulasi speaking tiap akhir sesi'}]);
       if(!LS.get('enrollments')) LS.set('enrollments', [{id:uid(),student:'Aisyah Putri Rahayu',program:'English for Kids',scheduleId:'seed-schedule-1',scheduleLabel:'Monday • 15:30 - 17:00 • Dr. Irma Sanjaya • Room A / Offline',startDate:'2026-04-14',status:'Confirmed',payment:'Paid',source:'Website Form',note:'Parent request kelas sore'},{id:uid(),student:'Cindy Oktaviani',program:'English for Academy',scheduleId:'',scheduleLabel:'',startDate:'2026-04-18',status:'New',payment:'Partial',source:'WhatsApp Admin',note:'Menunggu kelengkapan dokumen'},{id:uid(),student:'Hendra Kurniawan',program:'English for Teens',scheduleId:'seed-schedule-2',scheduleLabel:'Wednesday • 18:30 - 20:00 • Jeffry Hartanto, M.Kom • Zoom Class',startDate:'2026-04-16',status:'Waiting List',payment:'Unpaid',source:'Instagram DM',note:'Masuk waiting list batch berikutnya'}]);
     }
   }
